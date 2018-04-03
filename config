@@ -1,0 +1,3 @@
+[database]
+DB_PATH=.
+DB_FILE=courses.sqlite
