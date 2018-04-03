@@ -55,6 +55,14 @@ def schedule_parser(page: requests.models.Response) -> list:
 
 def schedule_search(subject: str, quarter: str, level: str,
                     parser: Callable[[requests.models.Response], list]=schedule_parser) -> list:
+    """
+    Searches classes offered using given query.
+    :param subject: Subject field, i.e., CMPSC
+    :param quarter: Quarter, i.e., 20181 means Winter 18
+    :param level: Class level, 'undergraduate' or 'graduate'
+    :param parser: This parser is used to parse class schedule, a default parser has provided
+    :return: A list of all satisfied classes
+    """
     s = requests.Session()
     schedule_init = s.get(schedule_link)
     options = schedule_search_options(schedule_init)
@@ -65,6 +73,11 @@ def schedule_search(subject: str, quarter: str, level: str,
 
 
 def schedule_search_options(page: requests.models.Response=None) -> dict:
+    """
+    Returns what options are valid that can be used in `schedule_search`
+    :param page: Website of the class search page. It nothing is provided, it will retrieve the page by itself.
+    :return: A dictionary of all valid fields.
+    """
     page = page or requests.get(schedule_link)
     soup = BeautifulSoup(page.content, 'html5lib')
     return {
